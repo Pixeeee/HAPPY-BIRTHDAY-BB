@@ -490,7 +490,7 @@
         <div id="olaf-hint">✦ CLICK MO SI OLAF →</div>
     </div>
     <div id="s1-right">
-        <img id="olaf-img" src="/assets/olaf.png" alt="Olaf" draggable="false">
+        <img id="olaf-img" src="public/assets/olaf.png" alt="Olaf" draggable="false">
     </div>
 </div>
 
@@ -654,7 +654,7 @@ function initScreen2() {
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(loader, 0, 0, w, h);
     };
-    loader.src = '/assets/penguin-box.gif?' + Date.now();
+    loader.src = 'public/assets/penguin-box.gif?' + Date.now();
 
     function onTap() {
         if (s2State === 0) {
@@ -664,7 +664,7 @@ function initScreen2() {
         } else if (s2State === 1) {
             canvas.style.display = 'none';
             gif.style.display    = 'block';
-            gif.src = '/assets/penguin-box.gif?' + Date.now();
+            gif.src = 'public/assets/penguin-box.gif?' + Date.now();
             s2State = 2;
             setTimeout(() => document.getElementById('s2-arrow').classList.add('show'), 1800);
         }
@@ -701,7 +701,7 @@ document.getElementById('yes-btn').addEventListener('click', () => {
 
 function showCat(type) {
     document.getElementById('cat-img').src =
-        type === 'angry' ? '/assets/angrycat.jpg' : '/assets/happycat.png';
+        type === 'angry' ? 'public/assets/angrycat.jpg' : 'public/assets/happycat.png';
     document.getElementById('cat-pop').classList.add('show');
     if (type === 'angry') catTimer = setTimeout(hideCat, 1400);
 }
@@ -746,7 +746,7 @@ function initScreen4() {
         wrap.style.zIndex = String(i + 5);
         const frame = document.createElement('div'); frame.className = 'p-frame';
         const img   = document.createElement('img');
-        img.src = '/assets/' + (i + 1) + '.png';
+        img.src = 'public/assets/' + (i + 1) + '.png';
         img.style.cssText = `width:${pos.s}px;height:${pos.s}px;`;
         frame.appendChild(img); wrap.appendChild(frame); panel.appendChild(wrap);
     });
