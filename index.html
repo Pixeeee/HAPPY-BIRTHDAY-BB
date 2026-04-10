@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday BB! 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+        --bg:      #b8dff0;
+        --bg2:     #d4eef9;
+        --bg3:     #8ec8e8;
+        --ink:     #0c2a4a;
+        --ink2:    #1a4a7a;
+        --accent:  #3a8fbf;
+        --font-h:  'Cinzel Decorative', serif;
+        --font-b:  'Cormorant Garamond', serif;
+    }
+
+    html, body {
+        width: 100vw; height: 100vh;
+        overflow: hidden;
+        font-family: var(--font-b);
+        background: var(--bg);
+        user-select: none;
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+        position: fixed; inset: 0;
+        display: flex;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.7s ease;
+    }
+    .screen.active { opacity: 1; pointer-events: all; }
+
+
+    /* ═══════════════════════
+       SCREEN 1 — WELCOME
+    ═══════════════════════ */
+    #s1 {
+        background: linear-gradient(135deg, #b8dff0 0%, #d4eef9 40%, #c5e8f5 65%, #8ec8e8 100%);
+        flex-direction: row;
+        align-items: center;
+    }
+    #s1::after {
+        content: ''; position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 55% 45% at 15% 20%, rgba(255,255,255,0.45) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 50% at 85% 80%, rgba(142,200,232,0.30) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    #s1-left {
+        flex: 1; padding: 70px 30px 70px 80px; z-index: 5;
+        display: flex; flex-direction: column; justify-content: center; gap: 34px;
+    }
+
+    #intro-text {
+        font-family: var(--font-h);
+        font-size: clamp(1.15rem, 2vw, 2.2rem);
+        color: var(--ink);
+        line-height: 2.1;
+        white-space: pre-line;
+        min-height: 13rem;
+        letter-spacing: 0.03em;
+    }
+
+    #olaf-hint {
+        font-family: var(--font-h);
+        font-size: clamp(0.78rem, 1.3vw, 1.2rem);
+        color: var(--ink2);
+        letter-spacing: 0.1em;
+        opacity: 0; transition: opacity 0.8s ease;
+    }
+    #olaf-hint.show { opacity: 1; }
+
+    #s1-right {
+        flex: 1; z-index: 5;
+        display: flex; align-items: center; justify-content: center;
+        padding: 40px;
+    }
+    #olaf-img {
+        max-width: 360px; max-height: 500px; width: 78%;
+        object-fit: contain; cursor: pointer;
+        filter: drop-shadow(4px 8px 20px rgba(12,42,74,0.22));
+    }
+    #olaf-img:hover { filter: drop-shadow(4px 8px 32px rgba(12,42,74,0.38)); }
+
+
+    /* ═══════════════════════
+       SCREEN 2 — PENGUIN
+    ═══════════════════════ */
+    #s2 { background: #000; flex-direction: column; align-items: center; justify-content: center; }
+
+    #penguin-wrap { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+
+    #penguin-canvas, #penguin-gif {
+        width: min(340px, 78vw); height: min(340px, 78vw);
+        object-fit: contain; cursor: pointer; border-radius: 6px;
+    }
+    #penguin-gif { display: none; }
+
+    #pindot {
+        font-family: var(--font-h);
+        font-size: clamp(0.9rem, 2.2vw, 1.5rem);
+        color: #fff; letter-spacing: 0.16em; text-align: center; cursor: pointer;
+        transition: opacity 0.8s ease;
+    }
+
+    #s2-arrow {
+        position: fixed; right: 52px; top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--font-h);
+        font-size: 1.15rem; color: #fff; cursor: pointer;
+        letter-spacing: 0.15em;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.8s ease;
+    }
+    #s2-arrow.show { opacity: 1; pointer-events: all; }
+
+
+    /* ═══════════════════════
+       SCREEN 3 — QUESTION
+    ═══════════════════════ */
+    #s3 {
+        background: linear-gradient(150deg, #c2e5f5 0%, #daf0fb 45%, #b0d8ee 100%);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 50px; overflow: hidden;
+    }
+    #s3::after {
+        content: ''; position: absolute; inset: 0;
+        background: radial-gradient(ellipse 60% 55% at 50% 45%, rgba(255,255,255,0.48) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    #q-text {
+        font-family: var(--font-h);
+        font-size: clamp(1.05rem, 2vw, 1.85rem);
+        color: var(--ink);
+        text-align: center; line-height: 2.2;
+        padding: 0 60px; z-index: 5;
+        min-height: 150px; white-space: pre-line;
+        letter-spacing: 0.05em;
+    }
+
+    #yn-row { display: flex; gap: 44px; z-index: 5; opacity: 0; transition: opacity 0.7s ease; }
+    #yn-row.show { opacity: 1; }
+
+    .yn-btn {
+        font-family: var(--font-h);
+        font-size: 0.95rem; padding: 13px 52px;
+        border: 2px solid var(--ink); border-radius: 50px;
+        cursor: pointer; letter-spacing: 0.18em;
+        background: transparent; color: var(--ink);
+        transition: background 0.22s, color 0.22s;
+    }
+    .yn-btn:hover { background: var(--ink); color: #fff; }
+
+    #cat-pop {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%,-50%) scale(0.5);
+        z-index: 200; opacity: 0; pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.28s ease;
+    }
+    #cat-pop.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    #cat-pop img {
+        width: min(280px, 70vw); height: min(280px, 70vw);
+        object-fit: contain;
+        filter: drop-shadow(0 8px 22px rgba(0,0,0,0.18));
+    }
+
+
+    /* ═══════════════════════
+       SCREEN 4 — POEM
+    ═══════════════════════ */
+    #s4 {
+        background: linear-gradient(145deg, #b4dcee 0%, #ceeaf8 50%, #8ec8e4 100%);
+        align-items: stretch; overflow: hidden;
+    }
+    #s4::after {
+        content:''; position:absolute; inset:0;
+        background: radial-gradient(ellipse 70% 60% at 28% 38%, rgba(255,255,255,0.36) 0%, transparent 65%);
+        pointer-events: none;
+    }
+
+    #s4-left {
+        width: 46%; min-width: 280px;
+        padding: 55px 25px 55px 65px;
+        display: flex; flex-direction: column;
+        overflow-y: auto; scrollbar-width: none; z-index: 5;
+    }
+    #s4-left::-webkit-scrollbar { display: none; }
+
+    #poem-header {
+        font-family: var(--font-h);
+        font-size: clamp(0.65rem, 1vw, 0.88rem);
+        color: var(--ink2); letter-spacing: 0.24em;
+        text-transform: uppercase; margin-bottom: 28px;
+    }
+
+    #poem-text {
+        font-family: var(--font-b);
+        font-style: italic;
+        font-size: clamp(0.95rem, 1.5vw, 1.22rem);
+        color: var(--ink);
+        line-height: 2.5; white-space: pre-line;
+    }
+
+    #s4-right { flex: 1; position: relative; overflow: hidden; z-index: 5; }
+
+    .polaroid {
+        position: absolute; opacity: 0;
+        transform: scale(0.6) rotate(var(--r));
+    }
+    .polaroid.pop {
+        opacity: 1;
+        transform: scale(1) rotate(var(--r));
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .polaroid:hover {
+        z-index: 50 !important;
+        transform: scale(1.12) rotate(0deg) !important;
+        transition: transform 0.2s ease;
+    }
+    .p-frame {
+        background: #fff; padding: 6px 6px 26px 6px;
+        box-shadow: 3px 5px 16px rgba(12,42,74,0.18), 0 2px 5px rgba(0,0,0,0.07);
+    }
+    .p-frame img { display: block; object-fit: cover; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 680px) {
+        #s1 { flex-direction: column-reverse; }
+        #s1-left { padding: 22px 18px; gap: 14px; }
+        #intro-text { font-size: 1rem; }
+        #s1-right { flex: unset; padding: 14px; }
+        #olaf-img { max-height: 170px; }
+        #s4 { flex-direction: column; }
+        #s4-left { width: 100%; min-width: unset; padding: 26px 18px; order: 2; max-height: 52vh; }
+        #s4-right { height: 40vh; flex: unset; order: 1; }
+        #q-text { padding: 0 18px; font-size: 1rem; }
+        .yn-btn { padding: 10px 28px; font-size: 0.82rem; }
+    }
+    </style>
+</head>
+<body>
+
+<!-- S1 -->
+<div id="s1" class="screen">
+    <div id="s1-left">
+        <div id="intro-text"></div>
+        <div id="olaf-hint">✦ CLICK MO SI OLAF →</div>
+    </div>
+    <div id="s1-right">
+        <img id="olaf-img" src="assets/olaf.png" alt="Olaf" draggable="false">
+    </div>
+</div>
+
+<!-- S2 -->
+<div id="s2" class="screen">
+    <div id="penguin-wrap">
+        <canvas id="penguin-canvas"></canvas>
+        <img id="penguin-gif" src="" alt="Surprise!" draggable="false">
+        <div id="pindot">🐧  PINDOT MO AQ BB  🐧</div>
+    </div>
+    <div id="s2-arrow">NEXT →</div>
+</div>
+
+<!-- S3 -->
+<div id="s3" class="screen">
+    <div id="q-text"></div>
+    <div id="yn-row">
+        <button class="yn-btn" id="yes-btn">YES  💕</button>
+        <button class="yn-btn" id="no-btn">NO</button>
+    </div>
+    <div id="cat-pop"><img id="cat-img" src="" alt="Cat"></div>
+</div>
+
+<!-- S4 -->
+<div id="s4" class="screen">
+    <div id="s4-left">
+        <div id="poem-header">— para sa iyo —</div>
+        <div id="poem-text"></div>
+    </div>
+    <div id="s4-right"></div>
+</div>
+
+
+<script>
+'use strict';
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function goToScreen(fromId, toId, cb) {
+    const from = document.getElementById(fromId);
+    const to   = document.getElementById(toId);
+    from.style.opacity = '0';
+    from.style.pointerEvents = 'none';
+    setTimeout(() => {
+        from.classList.remove('active');
+        to.classList.add('active');
+        if (cb) cb();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            to.style.opacity = '1';
+            to.style.pointerEvents = 'all';
+        }));
+    }, 720);
+}
+
+async function typeLines(el, lines, cMs, lMs) {
+    let built = '';
+    for (let li = 0; li < lines.length; li++) {
+        for (const ch of lines[li]) {
+            built += ch; el.textContent = built; await sleep(cMs);
+        }
+        built += '\n'; el.textContent = built;
+        if (li < lines.length - 1) await sleep(lMs);
+    }
+}
+
+/* ── S1 ── */
+async function initScreen1() {
+    const el   = document.getElementById('intro-text');
+    const hint = document.getElementById('olaf-hint');
+    await sleep(400);
+    await typeLines(el, [
+        "HELLLO BB!!!",
+        "TODAY IS YOUR DAYYY!!!",
+        "DAHIL LABLAB KO IKAWWW MIMI!!",
+        "ITO NAAA ANG MESSAGE KOOO SAYOOOO!!!"
+    ], 60, 370);
+    await sleep(280);
+    hint.classList.add('show');
+}
+
+document.getElementById('olaf-img').addEventListener('click', () => {
+    goToScreen('s1', 's2', initScreen2);
+});
+
+/* ── S2 ── */
+let s2State = 0;
+
+function initScreen2() {
+    const canvas = document.getElementById('penguin-canvas');
+    const gif    = document.getElementById('penguin-gif');
+    const pindot = document.getElementById('pindot');
+    s2State = 0;
+    canvas.style.display = 'block';
+    gif.style.display    = 'none';
+    pindot.style.opacity = '1';
+    pindot.style.pointerEvents = 'all';
+    document.getElementById('s2-arrow').classList.remove('show');
+
+    const loader = new Image();
+    loader.onload = () => {
+        const w = loader.naturalWidth  || 340;
+        const h = loader.naturalHeight || 340;
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(loader, 0, 0, w, h);
+    };
+    loader.src = 'assets/penguin-box.gif?' + Date.now();
+
+    function onTap() {
+        if (s2State === 0) {
+            pindot.style.opacity = '0';
+            pindot.style.pointerEvents = 'none';
+            s2State = 1;
+        } else if (s2State === 1) {
+            canvas.style.display = 'none';
+            gif.style.display    = 'block';
+            gif.src = 'assets/penguin-box.gif?' + Date.now();
+            s2State = 2;
+            setTimeout(() => document.getElementById('s2-arrow').classList.add('show'), 1800);
+        }
+    }
+
+    canvas.onclick = pindot.onclick = gif.onclick = onTap;
+}
+
+document.getElementById('s2-arrow').addEventListener('click', () => {
+    goToScreen('s2', 's3', initScreen3);
+});
+
+/* ── S3 ── */
+let catTimer = null;
+
+async function initScreen3() {
+    const qEl   = document.getElementById('q-text');
+    const ynRow = document.getElementById('yn-row');
+    await sleep(350);
+    await typeLines(qEl, [
+        "BEFORE WE PROCEED",
+        "I HAVE A QUESTION!!",
+        "",
+        "DO YOU LOVE ME??  💕"
+    ], 58, 290);
+    await sleep(240); ynRow.classList.add('show');
+}
+
+document.getElementById('no-btn').addEventListener('click', () => {
+    clearTimeout(catTimer); showCat('angry');
+});
+document.getElementById('yes-btn').addEventListener('click', () => {
+    clearTimeout(catTimer); hideCat(); showCat('happy');
+    setTimeout(() => { hideCat(); goToScreen('s3', 's4', initScreen4); }, 1800);
+});
+
+function showCat(type) {
+    document.getElementById('cat-img').src =
+        type === 'angry' ? 'assets/angrycat.jpg' : 'assets/happycat.png';
+    document.getElementById('cat-pop').classList.add('show');
+    if (type === 'angry') catTimer = setTimeout(hideCat, 1400);
+}
+function hideCat() { document.getElementById('cat-pop').classList.remove('show'); }
+
+/* ── S4 ── */
+const POEM = [
+    "Isang araw gumising ako,",
+    "Hindi mapakali sa bawat minuto,",
+    "Anong nangyare?",
+    "Bakit ganito?",
+    "Larawan na nakatatak sa aking isipan,",
+    "Tiyak na hindi pag sasawaan,",
+    "Lagi kang pag-aalayan,",
+    "Pag sayo kaya kong higitan ang kantang kalapastanganan",
+    "Maligayang kaarawan sayo mahal,",
+    "Nawa ay matuwa ka sa simple kong regalo,",
+    "Wala man akong pera sa ngayon,",
+    "Hindi ito magiging rason para hindi kita mapasaya,",
+    "Mahal na mahal ko ikaw!!!!",
+    "HAPPY BIRTHDAYYY baby babe my honeybunch, sugar plum",
+    "Pumpy-umpy-umpkin, sweetie pie, cuppycake, gumdrop, Snoogums, boogums,"
+];
+
+const LAYOUTS = [
+    {x:3, y:2,  r:-3, s:108},{x:37,y:3,  r:2,  s:102},{x:70,y:2,  r:-5,s:112},
+    {x:4, y:22, r:4,  s:105},{x:38,y:21, r:-2, s:110},{x:71,y:21, r:3, s:106},
+    {x:3, y:42, r:-3, s:108},{x:37,y:43, r:5,  s:103},{x:70,y:41, r:-4,s:112},
+    {x:5, y:62, r:2,  s:106},{x:37,y:63, r:-3, s:108},{x:70,y:61, r:2, s:104},
+    {x:4, y:80, r:-2, s:110},{x:37,y:81, r:4,  s:103},{x:70,y:79, r:-3,s:107},
+];
+
+let poemDone = false;
+
+function initScreen4() {
+    if (poemDone) return;
+    const panel = document.getElementById('s4-right');
+    LAYOUTS.forEach((pos, i) => {
+        const wrap  = document.createElement('div');
+        wrap.className = 'polaroid'; wrap.id = 'pol-' + i;
+        wrap.style.setProperty('--r', pos.r + 'deg');
+        wrap.style.left = pos.x + '%'; wrap.style.top = pos.y + '%';
+        wrap.style.zIndex = String(i + 5);
+        const frame = document.createElement('div'); frame.className = 'p-frame';
+        const img   = document.createElement('img');
+        img.src = 'assets/' + (i + 1) + '.png';
+        img.style.cssText = `width:${pos.s}px;height:${pos.s}px;`;
+        frame.appendChild(img); wrap.appendChild(frame); panel.appendChild(wrap);
+    });
+    typePoemWithPhotos();
+}
+
+async function typePoemWithPhotos() {
+    poemDone = true;
+    const textEl   = document.getElementById('poem-text');
+    const scrollEl = document.getElementById('s4-left');
+    let built = '';
+
+    for (let li = 0; li < POEM.length; li++) {
+        const pol = document.getElementById('pol-' + li);
+        if (pol) setTimeout(() => pol.classList.add('pop'), 80);
+        for (const ch of POEM[li]) {
+            built += ch; textEl.textContent = built;
+            scrollEl.scrollTop = scrollEl.scrollHeight;
+            await sleep(50);
+        }
+        built += '\n'; textEl.textContent = built;
+        scrollEl.scrollTop = scrollEl.scrollHeight;
+        await sleep(410);
+    }
+
+    await sleep(500);
+    built += '\n💙  Happy Birthday Mimi!!!  💙';
+    textEl.textContent = built;
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+}
+
+/* ── BOOT ── */
+window.addEventListener('DOMContentLoaded', () => {
+    const s1 = document.getElementById('s1');
+    s1.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        s1.style.opacity = '1'; s1.style.pointerEvents = 'all';
+    }));
+    initScreen1();
+});
+</script>
+</body>
+</html>
